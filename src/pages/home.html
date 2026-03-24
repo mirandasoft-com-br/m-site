@@ -321,17 +321,17 @@
       if (!grid) return;
 
       try {
-        const apiBase = 'http://localhost:3000';
-        
-        const response = await fetch(`${apiBase}/blogs`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer NjliZGFjYmZjMDRlZTdjNTdlZGJjNTgwOjE3NzQyOTM5NTgwMzE='
-          }
-        });
-
-        const res = await response.json();
+        let res;
+        if (window.core && typeof window.core.fetchAPI === 'function') {
+          res = await window.core.fetchAPI('/blogs');
+        } else {
+          const apiBase = (typeof window !== 'undefined' && window.config?.api?.baseUrl) ? window.config.api.baseUrl : 'http://localhost:3000';
+          const response = await fetch(`${apiBase}/blogs`, {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+          });
+          res = await response.json();
+        }
         
         if (res && res.success && res.data && res.data.length > 0) {
           const sortedPosts = res.data
