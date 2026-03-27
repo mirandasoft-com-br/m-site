@@ -1,4 +1,4 @@
-<!-- Version: V0.10.35 -->
+<!-- Version: V0.10.36 -->
 <style>
     /* Anúncios / iframes no meio do artigo */
     .blog-content .adsbygoogle,
@@ -57,6 +57,12 @@
         background: transparent;
     }
 
+    /* Sticky nas laterais: não usar transform/filter no #post-content (ex.: Animate.css quebra sticky) */
+    #post-content {
+        transform: none;
+        filter: none;
+    }
+
     /* Post: rails no fluid da viewport; texto + inline só no container-lg */
     #post-content .blog-post-fluid-breakout {
         width: 100vw;
@@ -79,6 +85,12 @@
         .blog-ads-sidebar--right {
             padding-left: 1.75rem;
         }
+    }
+
+    /* body overflow-x:hidden global quebra position:sticky no viewport */
+    html.blog-post-detail-open,
+    body.blog-post-detail-open {
+        overflow-x: clip;
     }
 </style>
 <!-- Blog Hero Section -->
@@ -229,7 +241,7 @@
 
             // Clean grid container for article content
             if (grid) {
-                grid.parentElement.innerHTML = '<div id="post-content" class="animate__animated animate__fadeInUp"></div>';
+                grid.parentElement.innerHTML = '<div id="post-content"></div>';
             }
             const container = document.getElementById('post-content');
 
@@ -335,7 +347,7 @@
                                         <div class="ad-sidebar-content" id="ad-sidebar-left"></div>
                                     </div>
                                 </aside>
-                                <div class="col-12 col-lg-11 col-xl-8">
+                                <div class="col-12 col-lg-11 col-xl-8 animate__animated animate__fadeInUp">
                                     <article class="container-lg mx-auto px-3 px-lg-4 blog-post-text-wrap" itemscope itemtype="https://schema.org/Article">
                                         ${hasCoverImage ? `<header class="mb-5"><img src="${post.imageUrl.trim()}" class="w-100 rounded-3 mb-4 shadow" alt="${(post.title || '').replace(/"/g, '&quot;')}" itemprop="image" loading="lazy"></header>` : ''}
                                         <div class="blog-content pb-4 text-white" style="line-height: 1.8; font-size: 1.15rem;" itemprop="articleBody" data-inline-ads="enabled">
@@ -390,6 +402,9 @@
                         });
                     }
                 }
+                document.documentElement.classList.add('blog-post-detail-open');
+                document.body.classList.add('blog-post-detail-open');
+
                 mountBlogPostInlineAds(container);
                 sidebarAdsTimerId = setTimeout(() => {
                     sidebarAdsTimerId = null;
@@ -401,6 +416,8 @@
             } catch (e) {
                 console.error(e);
                 clearSidebarAdSchedule();
+                document.documentElement.classList.remove('blog-post-detail-open');
+                document.body.classList.remove('blog-post-detail-open');
                 if (heroTitle) heroTitle.innerHTML = 'Post não encontrado';
                 if (container) container.innerHTML = '<div class="text-center"><a href="/blog" class="btn btn-primary">Voltar para o Blog</a></div>';
             }
@@ -453,6 +470,8 @@
             if (!grid) return;
             clearSidebarAdSchedule();
             sidebarAdsGeneration++;
+            document.documentElement.classList.remove('blog-post-detail-open');
+            document.body.classList.remove('blog-post-detail-open');
             resetBlogMeta();
             grid.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
 
