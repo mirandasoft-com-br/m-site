@@ -1,4 +1,20 @@
 // Configurações do Framework
+/**
+ * API local: http://127.0.0.1:3000. O site não deve rodar na mesma porta (use 8082 etc.).
+ * Override: window.__MSOFT_API_BASE__
+ */
+function resolveApiBaseUrl() {
+  if (typeof window === 'undefined') return 'https://api.mirandasoft.com.br';
+  const custom = window.__MSOFT_API_BASE__;
+  if (typeof custom === 'string' && custom.trim()) {
+    return custom.replace(/\/+$/, '');
+  }
+  const h = window.location.hostname;
+  const isLocal = h === 'localhost' || h === '127.0.0.1';
+  if (!isLocal) return 'https://api.mirandasoft.com.br';
+  return 'http://127.0.0.1:3000';
+}
+
 const config = {
   app: {
     name: "Miranda Soft",
@@ -8,10 +24,7 @@ const config = {
     token: "9f3c8b1a-2d7e-4a4d-91e3-c9f621f7dcb1"
   },
   api: {
-    // Auto-detect environment: Use Local API for localhost, otherwise Production API
-    baseUrl: (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
-      ? "http://localhost:3000"
-      : "https://api.mirandasoft.com.br",
+    baseUrl: resolveApiBaseUrl(),
     timeout: 30000,
     retryAttempts: 3,
     useProxy: false,

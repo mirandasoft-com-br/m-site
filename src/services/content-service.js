@@ -13,7 +13,7 @@
       this.content = this.loadFromStorage();
       this.apiUrl = (window.config && window.config.api && window.config.api.baseUrl)
         ? window.config.api.baseUrl
-        : 'http://localhost:3000';
+        : 'http://127.0.0.1:3000';
 
       // Auto-sync on init
       setTimeout(() => this.init(), 100);

@@ -40,71 +40,6 @@
 
 <section class="dev-section pt-0">
   <div class="container">
-    <div class="dev-skill-card p-4 p-lg-5">
-      <div class="mb-4">
-        <h2 class="h3 text-white mb-2">Abrir oportunidade de negocio</h2>
-        <p class="text-on-surface-variant mb-0">
-          Preencha os dados do projeto. Nosso time comercial recebe seu lead e retorna com o plano ideal.
-        </p>
-      </div>
-
-      <form id="lead-capture-form" class="row g-3">
-        <div class="col-md-6">
-          <label for="lead-name" class="form-label text-light">Nome completo</label>
-          <input id="lead-name" name="name" type="text" class="form-control cms-input" required>
-        </div>
-        <div class="col-md-6">
-          <label for="lead-email" class="form-label text-light">E-mail</label>
-          <input id="lead-email" name="email" type="email" class="form-control cms-input" required>
-        </div>
-        <div class="col-md-6">
-          <label for="lead-phone" class="form-label text-light">WhatsApp</label>
-          <input id="lead-phone" name="phone" type="text" class="form-control cms-input" required>
-        </div>
-        <div class="col-md-6">
-          <label for="lead-company" class="form-label text-light">Empresa</label>
-          <input id="lead-company" name="company" type="text" class="form-control cms-input">
-        </div>
-        <div class="col-md-6">
-          <label for="lead-service" class="form-label text-light">Servico de interesse</label>
-          <select id="lead-service" name="service" class="form-select cms-input" required>
-            <option value="">Selecione</option>
-            <option value="Desenvolvimento Web">Desenvolvimento Web</option>
-            <option value="Apps Mobile">Apps Mobile</option>
-            <option value="Consultoria TI">Consultoria TI</option>
-            <option value="Cloud Computing">Cloud Computing</option>
-            <option value="Outro">Outro</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label for="lead-budget" class="form-label text-light">Faixa de investimento</label>
-          <select id="lead-budget" name="budget" class="form-select cms-input">
-            <option value="">Nao informado</option>
-            <option value="ate-10k">Ate R$ 10 mil</option>
-            <option value="10k-30k">R$ 10 mil a R$ 30 mil</option>
-            <option value="30k-80k">R$ 30 mil a R$ 80 mil</option>
-            <option value="acima-80k">Acima de R$ 80 mil</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <label for="lead-message" class="form-label text-light">Descreva o objetivo</label>
-          <textarea id="lead-message" name="message" rows="4" class="form-control cms-input" required></textarea>
-        </div>
-        <div class="col-12 d-flex flex-wrap gap-3 pt-2">
-          <button id="lead-submit-btn" type="submit" class="dev-btn dev-btn-primary">
-            Enviar lead
-          </button>
-          <a href="https://wa.me/5584988330532" target="_blank" rel="noopener noreferrer" class="dev-btn dev-btn-secondary text-decoration-none">
-            Preferir WhatsApp
-          </a>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section class="dev-section pt-0">
-  <div class="container">
     <div class="row g-4">
       <div class="col-lg-6" id="desenvolvimento-web">
         <article class="dev-skill-card h-100 p-4 p-lg-5">
@@ -165,10 +100,119 @@
   </div>
 </section>
 
+<section class="dev-section pt-0 pb-5">
+  <div class="container">
+    <div class="dev-section-header mb-4 mb-lg-5">
+      <span class="dev-section-badge">
+        <i class="bi bi-briefcase-fill"></i> Oportunidade
+      </span>
+      <h2 class="dev-section-title text-white">Abrir oportunidade de negocio</h2>
+      <p class="dev-section-description mb-0">
+        Preencha os dados do projeto. Nosso time comercial analisa e retorna com o plano ideal.
+      </p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-xl-10">
+        <div class="dev-skill-card dev-skill-card--form p-4 p-lg-5">
+          <form id="lead-capture-form" class="row g-3 g-md-4">
+            <div class="col-md-6">
+              <label for="lead-name" class="form-label expertise-form-label">Nome completo</label>
+              <input id="lead-name" name="name" type="text" class="form-control expertise-form-control" placeholder="Seu nome" autocomplete="name" required>
+            </div>
+            <div class="col-md-6">
+              <label for="lead-email" class="form-label expertise-form-label">E-mail</label>
+              <input id="lead-email" name="email" type="email" class="form-control expertise-form-control" placeholder="voce@empresa.com" autocomplete="email" required>
+            </div>
+            <div class="col-md-6">
+              <label for="lead-phone" class="form-label expertise-form-label">WhatsApp</label>
+              <input id="lead-phone" name="phone" type="text" class="form-control expertise-form-control" placeholder="DDD + numero" inputmode="tel" minlength="8" maxlength="30" required>
+            </div>
+            <div class="col-md-6">
+              <label for="lead-company" class="form-label expertise-form-label">Empresa</label>
+              <input id="lead-company" name="company" type="text" class="form-control expertise-form-control" placeholder="Opcional" autocomplete="organization">
+            </div>
+            <div class="col-md-6">
+              <label for="lead-service" class="form-label expertise-form-label">Servico de interesse</label>
+              <select id="lead-service" name="service" class="form-select expertise-form-control" required>
+                <option value="">Selecione</option>
+                <option value="Desenvolvimento Web">Desenvolvimento Web</option>
+                <option value="Apps Mobile">Apps Mobile</option>
+                <option value="Consultoria TI">Consultoria TI</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="lead-budget" class="form-label expertise-form-label">Faixa de investimento</label>
+              <select id="lead-budget" name="budget" class="form-select expertise-form-control">
+                <option value="">Nao informado</option>
+                <option value="ate-10k">Ate R$ 10 mil</option>
+                <option value="10k-30k">R$ 10 mil a R$ 30 mil</option>
+                <option value="30k-80k">R$ 30 mil a R$ 80 mil</option>
+                <option value="acima-80k">Acima de R$ 80 mil</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label for="lead-message" class="form-label expertise-form-label">Descreva o objetivo</label>
+              <textarea id="lead-message" name="message" rows="4" class="form-control expertise-form-control" placeholder="Minimo 10 caracteres. Ex.: lancamento de app em 6 meses..." minlength="10" maxlength="3000" required></textarea>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-3 pt-2">
+              <button id="expertise-form-submit" type="submit" class="dev-btn dev-btn-primary">
+                Enviar
+              </button>
+              <a href="https://wa.me/5584988330532" target="_blank" rel="noopener noreferrer" class="dev-btn dev-btn-secondary text-decoration-none">
+                Preferir WhatsApp
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dev-skill-card.dev-skill-card--form {
+    transform: none;
+    box-shadow: none;
+  }
+  .dev-skill-card.dev-skill-card--form:hover {
+    transform: none;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border-color: rgba(173, 198, 255, 0.12);
+  }
+  .expertise-form-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ms-text-muted, #64748b);
+    margin-bottom: 0.35rem;
+  }
+  .expertise-form-control {
+    background: var(--ms-surface-container, #1b1b20) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: var(--ms-text-primary, #e4e1e9) !important;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .expertise-form-control::placeholder {
+    color: rgba(148, 163, 184, 0.65);
+  }
+  .expertise-form-control:focus {
+    border-color: rgba(59, 130, 246, 0.55) !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.2) !important;
+    outline: none;
+  }
+</style>
+
 <script>
   (function () {
     const form = document.getElementById('lead-capture-form');
-    const submitBtn = document.getElementById('lead-submit-btn');
+    const submitBtn = document.getElementById('expertise-form-submit');
+    const api = window.config?.api?.baseUrl || 'http://127.0.0.1:3000';
     if (!form || !submitBtn) return;
 
     form.addEventListener('submit', async function (event) {
@@ -183,15 +227,26 @@
         name: getFieldValue('name'),
         email: getFieldValue('email'),
         phone: getFieldValue('phone'),
-        company: getFieldValue('company'),
         service: getFieldValue('service'),
-        budget: getFieldValue('budget'),
         message: getFieldValue('message'),
         source: 'website:expertise'
       };
 
+      const company = getFieldValue('company');
+      const budget = getFieldValue('budget');
+      if (company) payload.company = company;
+      if (budget) payload.budget = budget;
+
       if (!payload.name || !payload.email || !payload.phone || !payload.service || !payload.message) {
         window.core.toast('Preencha os campos obrigatorios do formulario.', 'warning');
+        return;
+      }
+      if (payload.message.length < 10) {
+        window.core.toast('Descreva o objetivo com pelo menos 10 caracteres.', 'warning');
+        return;
+      }
+      if (payload.phone.length < 8) {
+        window.core.toast('Informe um WhatsApp valido (minimo 8 digitos).', 'warning');
         return;
       }
 
@@ -200,16 +255,36 @@
       submitBtn.disabled = true;
 
       try {
-        const response = await window.core.fetchAPI('/leads', 'POST', payload);
+        let response = null;
+        if (window.core && typeof window.core.fetchAPI === 'function') {
+          response = await window.core.fetchAPI('/leads', 'POST', payload);
+        } else {
+          const res = await fetch(`${api}/leads`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const json = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            throw new Error(json.error || `HTTP ${res.status}`);
+          }
+          response = json;
+        }
         if (!response || !response.success) {
-          throw new Error(response && response.error ? response.error : 'Falha ao enviar lead');
+          throw new Error(response && response.error ? response.error : 'Falha ao enviar');
         }
 
         form.reset();
-        window.core.toast('Lead enviado com sucesso. Retornaremos em breve.', 'success');
+        if (window.core && typeof window.core.toast === 'function') {
+          window.core.toast('Enviado com sucesso. Retornaremos em breve.', 'success');
+        }
       } catch (error) {
-        const message = error && error.message ? error.message : 'Nao foi possivel enviar o lead';
-        window.core.toast(message, 'error');
+        const message = error && error.message ? error.message : 'Nao foi possivel enviar. Tente novamente.';
+        if (window.core && typeof window.core.toast === 'function') {
+          window.core.toast(message, 'error');
+        } else {
+          console.warn(message);
+        }
       } finally {
         submitBtn.innerHTML = previousHtml;
         submitBtn.disabled = false;

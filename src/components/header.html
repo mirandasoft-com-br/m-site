@@ -82,22 +82,43 @@
 
   /* User Menu specific styles */
   .header-user-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    justify-content: center;
+    gap: 6px;
+    max-width: 100%;
+    min-width: 0;
+    padding: 8px 12px;
     border: 1px solid rgba(59, 130, 246, 0.3);
     border-radius: 50px;
     background: rgba(59, 130, 246, 0.1);
     color: white !important;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  /* Bootstrap ::after caret breaks flex layout — use icon in markup instead */
+  .header-user-btn.dropdown-toggle::after {
+    display: none !important;
+  }
+
+  .header-user-btn .header-user-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header-user-btn .header-user-caret {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    opacity: 0.85;
   }
 
   .header-user-btn:hover {
     background: rgba(59, 130, 246, 0.2);
     border-color: #3b82f6;
-    transform: translateY(-2px);
   }
 
   @media (max-width: 991.98px) {
@@ -150,6 +171,36 @@
     }
   });
 
+  // SPA: collapse stays open on internal nav — close on mobile after link/action
+  (function closeNavbarCollapseOnNavigate() {
+    const navbarNav = document.getElementById('navbarNav');
+    if (!navbarNav || typeof bootstrap === 'undefined') return;
+
+    const mq = window.matchMedia('(max-width: 991.98px)');
+
+    function hideCollapse() {
+      if (!mq.matches) return;
+      const el = document.getElementById('navbarNav');
+      if (!el) return;
+      const inst = bootstrap.Collapse.getOrCreateInstance(el, { toggle: false });
+      inst.hide();
+    }
+
+    navbarNav.addEventListener('click', function (e) {
+      const link = e.target.closest('a[href]');
+      if (link) {
+        if (link.hasAttribute('data-bs-toggle')) return;
+        const href = link.getAttribute('href');
+        if (href === '#' || (href && href.startsWith('javascript:'))) return;
+        hideCollapse();
+        return;
+      }
+      if (e.target.closest('button.dropdown-item')) {
+        hideCollapse();
+      }
+    });
+  })();
+
   // Auth Header Logic
   (function updateHeaderAuth() {
     const headerAuthItem = document.getElementById('header-auth-action');
@@ -193,7 +244,9 @@
         headerAuthItem.innerHTML = `
           <div class="dropdown">
             <button class="header-user-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu da conta">
-              <i class="bi bi-person-circle"></i> ${user.name ? user.name.split(' ')[0] : 'Conta'}
+              <i class="bi bi-person-circle flex-shrink-0" aria-hidden="true"></i>
+              <span class="header-user-name">${user.name ? user.name.split(' ')[0] : 'Conta'}</span>
+              <i class="bi bi-chevron-down header-user-caret" aria-hidden="true"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end bg-dark border-secondary shadow-lg">
               <li class="dropdown-header text-muted small text-uppercase">Meus Acessos</li>

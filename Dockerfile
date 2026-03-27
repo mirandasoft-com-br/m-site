@@ -10,12 +10,10 @@ RUN npm install -g serve
 # Copia todos os arquivos do site para o container
 COPY . .
 
-# Expõe a porta que o serve utilizará (o padrão do usuário era 3000)
-EXPOSE 3000
+# Porta 8080: site não usa 3000 no host (API m-manage em localhost:3000)
+EXPOSE 8080
 
-# Adiciona um healthcheck básico para garantir que o serviço está no ar
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080 || exit 1
 
-# Comando para iniciar o servidor estático mantendo a configuração do usuário
-CMD ["serve", "-s", ".", "-p", "3000"]
+CMD ["serve", "-s", ".", "-p", "8080"]
