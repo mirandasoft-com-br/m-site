@@ -46,6 +46,7 @@ const config = {
       'healthtech-patients',
       'healthtech-formulas',
       'marketplace',
+      'expertise',
       'mcredential',
       'profile',
       'support',

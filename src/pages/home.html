@@ -43,9 +43,9 @@
           </div>
           <h3 class="h4 fw-bold text-white mb-3">Fábrica de Software</h3>
           <p class="text-on-surface-variant mb-4">Desenvolvimento sob medida com metodologias ágeis e foco em escalabilidade global.</p>
-          <div class="mt-auto d-flex align-items-center text-primary fw-bold gap-2">
+          <a href="/expertise#desenvolvimento-web" class="mt-auto d-inline-flex align-items-center text-primary fw-bold gap-2 text-decoration-none">
             Saber mais <i class="bi bi-arrow-right"></i>
-          </div>
+          </a>
         </div>
       </div>
       
@@ -57,9 +57,9 @@
           </div>
           <h3 class="h4 fw-bold text-white mb-3">Aplicativos Mobile</h3>
           <p class="text-on-surface-variant mb-4">Experiências nativas e híbridas que colocam o seu negócio na palma da mão do cliente.</p>
-          <div class="mt-auto d-flex align-items-center text-secondary fw-bold gap-2">
+          <a href="/expertise#apps-mobile" class="mt-auto d-inline-flex align-items-center text-secondary fw-bold gap-2 text-decoration-none">
             Saber mais <i class="bi bi-arrow-right"></i>
-          </div>
+          </a>
         </div>
       </div>
       
@@ -71,9 +71,9 @@
           </div>
           <h3 class="h4 fw-bold text-white mb-3">Consultoria Tech</h3>
           <p class="text-on-surface-variant mb-4">Diagnóstico e planejamento arquitetural para modernização de sistemas legados.</p>
-          <div class="mt-auto d-flex align-items-center text-tertiary fw-bold gap-2">
+          <a href="/expertise#consultoria-ti" class="mt-auto d-inline-flex align-items-center text-tertiary fw-bold gap-2 text-decoration-none">
             Saber mais <i class="bi bi-arrow-right"></i>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -114,14 +114,6 @@
           Nossa cultura é pautada na transparência técnica e na busca incessante pela excelência. Cada linha de código é pensada para ser resiliente, segura e preparada para o futuro.
         </p>
         
-        <div class="d-flex align-items-center gap-3">
-          <div class="d-flex" style="padding-left: 15px;">
-            <div class="rounded-circle border border-dark bg-secondary shadow-sm" style="width: 40px; height: 40px; margin-left: -15px;"></div>
-            <div class="rounded-circle border border-dark bg-primary shadow-sm" style="width: 40px; height: 40px; margin-left: -15px;"></div>
-            <div class="rounded-circle border border-dark bg-tertiary shadow-sm" style="width: 40px; height: 40px; margin-left: -15px;"></div>
-          </div>
-          <span class="small fw-medium text-on-surface-variant">Confiança de centenas de parceiros</span>
-        </div>
       </div>
     </div>
   </div>
@@ -132,7 +124,7 @@
   <div class="container">
     <div class="border border-white border-opacity-5 p-5 p-lg-5" style="border-radius: 40px; background: linear-gradient(145deg, var(--ms-surface-container-high), var(--ms-surface-container-low));">
       <div class="row align-items-center g-5">
-        <div class="col-lg-7">
+        <div class="col-lg-12" id="cta-text-col">
            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-4" style="background-color: rgba(78, 222, 163, 0.1); color: var(--ms-tertiary);">
              <i class="bi bi-patch-check-fill"></i>
              <span class="small fw-bold text-uppercase tracking-wider">Novo Lançamento</span>
@@ -141,7 +133,7 @@
             <p class="body-lg mb-4 text-on-surface-variant" id="cta-desc">
               Buscando as últimas novidades da Miranda Soft para você.
             </p>
-            <div id="cta-meta" class="d-flex align-items-center gap-3 mb-5 text-muted small"></div>
+            <div id="cta-meta" class="d-flex align-items-center gap-3 mb-5 text-white small"></div>
            
 
            
@@ -150,7 +142,7 @@
             </a>
         </div>
         
-        <div class="col-lg-5 d-flex justify-content-center">
+        <div class="col-lg-5 d-flex justify-content-center" id="cta-image-col" style="display: none;">
                <div class="shadow-lg overflow-hidden" style="aspect-ratio: 16/10; border-radius: 24px; background-color: #000; position: relative; border: 1px solid rgba(255,255,255,0.05);">
                   <img id="cta-img" src="" 
                        alt="Blog Destaque" class="w-100 h-100 object-fit-cover opacity-75">
@@ -282,6 +274,11 @@
       // Features
       const grid = document.getElementById('features-grid');
       if (grid && content.features) {
+        const expertiseHrefByTitle = {
+          'Fábrica de Software': '/expertise#desenvolvimento-web',
+          'Aplicativos Mobile': '/expertise#apps-mobile',
+          'Consultoria Tech': '/expertise#consultoria-ti'
+        };
         grid.innerHTML = content.features.map(f => `
           <div class="col-lg-4">
             <div class="dev-skill-card h-100">
@@ -290,9 +287,9 @@
               </div>
               <h3 class="h4 fw-bold text-white mb-3">${f.title}</h3>
               <p class="text-on-surface-variant mb-4">${f.description}</p>
-              <div class="mt-auto d-flex align-items-center text-primary fw-bold gap-2">
-                Saber mais <i class="bi bi-arrow-right"></i>
-              </div>
+              <a href="${f.href && f.href !== '/#solucoes' ? f.href : (expertiseHrefByTitle[f.title] || '/expertise')}" class="mt-auto d-inline-flex align-items-center text-primary fw-bold gap-2 text-decoration-none">
+                ${f.ctaLabel || 'Saber mais'} <i class="bi bi-arrow-right"></i>
+              </a>
             </div>
           </div>
         `).join('');
@@ -356,15 +353,51 @@
 
               if (hTitle) hTitle.textContent = highlightPost.title;
               if (hDesc) hDesc.textContent = highlightPost.description || ((highlightPost.content || '').replace(/<[^>]*>/g, '').substring(0, 160).trim() + '...');
-              const imgCol = hImg && hImg.closest('.col-lg-5');
-              if (highlightPost.imageUrl && highlightPost.imageUrl.trim()) {
-                if (hImg) hImg.src = highlightPost.imageUrl;
-                if (imgCol) imgCol.style.display = '';
+              const imgCol = document.getElementById('cta-image-col');
+              const textCol = document.getElementById('cta-text-col');
+              const imageUrl = (highlightPost.imageUrl || '').trim();
+              const setCtaImageVisibility = (showImage) => {
+                if (imgCol) imgCol.style.display = showImage ? '' : 'none';
+                if (textCol) {
+                  textCol.classList.toggle('col-lg-7', showImage);
+                  textCol.classList.toggle('col-lg-12', !showImage);
+                }
+              };
+              const hideCtaImage = () => {
+                if (hImg) hImg.removeAttribute('src');
+                setCtaImageVisibility(false);
+              };
+
+              setCtaImageVisibility(false);
+              if (imageUrl && hImg) {
+                try {
+                  const imageResponse = await fetch(imageUrl, { method: 'GET' });
+                  if (imageResponse.ok) {
+                    hImg.src = imageUrl;
+                    setCtaImageVisibility(true);
+                  } else {
+                    hideCtaImage();
+                  }
+                } catch (error) {
+                  // Fallback para cenarios de CORS: valida carregamento real da imagem
+                  const canRenderImage = await new Promise((resolve) => {
+                    const probe = new Image();
+                    probe.onload = () => resolve(true);
+                    probe.onerror = () => resolve(false);
+                    probe.src = imageUrl;
+                  });
+                  if (canRenderImage) {
+                    hImg.src = imageUrl;
+                    setCtaImageVisibility(true);
+                  } else {
+                    hideCtaImage();
+                  }
+                }
               } else {
-                if (imgCol) imgCol.style.display = 'none';
+                hideCtaImage();
               }
               if (hBtn) hBtn.href = `/blog/${highlightPost.slug}`;
-              if (hMeta) hMeta.innerHTML = `<span><i class="bi bi-calendar3 me-1"></i> ${date}</span> <span class="opacity-25">|</span> <span class="text-secondary"><i class="bi bi-tag me-1"></i> ${highlightPost.category || 'Insights'}</span>`;
+              if (hMeta) hMeta.innerHTML = `<span class="text-white"><i class="bi bi-calendar3 me-1"></i> ${date}</span> <span class="opacity-50 text-white">|</span> <span class="text-info fw-semibold"><i class="bi bi-tag me-1"></i> ${highlightPost.category || 'Insights'}</span>`;
           }
 
           grid.innerHTML = posts.map(post => {

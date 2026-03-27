@@ -5,27 +5,29 @@
 
 <section class="min-vh-100 d-flex align-items-center justify-content-center py-5 overflow-hidden position-relative">
     <div class="container-fluid position-relative z-1 px-4 px-lg-5">
-        <div class="row justify-content-center g-5 login-split-row">
-            <div class="col-lg-5 col-xl-4 login-panel">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5 col-xxl-4 login-panel">
                 <div class="text-center mb-3">
-                    <h2 class="h5 text-white fw-semibold m-0">Acesso do Cliente</h2>
+                    <h2 class="h5 text-white fw-semibold m-0">Acesso da Plataforma</h2>
+                    <p class="text-on-surface-variant small mt-2 mb-0">
+                        Entre com suas credenciais para acessar seu ambiente com segurança.
+                    </p>
                 </div>
 
-                <!-- Login Surface -->
                 <div class="ms-login-surface p-4 p-md-5 animate__animated animate__fadeInUp">
-                    <form id="login-form-client">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="email-client" placeholder="nome@exemplo.com" required>
-                            <label for="email-client" class="text-muted small">E-mail ou Usuário</label>
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="email" class="text-muted small d-block mb-2">E-mail ou Usuário</label>
+                            <input type="text" class="form-control" id="email" placeholder="nome@exemplo.com" required>
                         </div>
 
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="password-client" placeholder="Senha" required>
-                            <label for="password-client" class="text-muted small">Senha de Acesso</label>
+                        <div class="mb-4">
+                            <label for="password" class="text-muted small d-block mb-2">Senha de Acesso</label>
+                            <input type="password" class="form-control" id="password" placeholder="Senha" required>
                         </div>
 
-                        <button type="submit" class="dev-btn dev-btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" data-btn-text-default="Entrar como Cliente">
-                            <span class="login-btn-text">Entrar como Cliente</span>
+                        <button type="submit" class="dev-btn dev-btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" data-btn-text-default="Entrar">
+                            <span class="login-btn-text">Entrar</span>
                             <div class="spinner-border spinner-border-sm login-spinner" role="status" style="display: none;"></div>
                         </button>
                     </form>
@@ -36,42 +38,10 @@
                     </div>
                 </div>
 
-                <!-- Back to Home -->
                 <div class="mt-4 animate__animated animate__fadeIn animate__delay-1s">
                     <a href="/" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-2 hover-white transition-all">
                         <i class="bi bi-house"></i> Voltar para o Site Principal
                     </a>
-                </div>
-
-            </div>
-
-            <div class="col-lg-5 col-xl-4 login-panel">
-                <div class="text-center mb-3">
-                    <h2 class="h5 text-white fw-semibold m-0">Admin e Corporativo</h2>
-                </div>
-
-                <div class="ms-login-surface p-4 p-md-5 animate__animated animate__fadeInUp">
-                    <form id="login-form-corporate">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="email-corporate" placeholder="admin@empresa.com" required>
-                            <label for="email-corporate" class="text-muted small">E-mail Corporativo ou Usuário</label>
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <input type="password" class="form-control" id="password-corporate" placeholder="Senha" required>
-                            <label for="password-corporate" class="text-muted small">Senha de Acesso</label>
-                        </div>
-
-                        <button type="submit" class="dev-btn dev-btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2" data-btn-text-default="Entrar como Admin/Corporativo">
-                            <span class="login-btn-text">Entrar como Admin/Corporativo</span>
-                            <div class="spinner-border spinner-border-sm login-spinner" role="status" style="display: none;"></div>
-                        </button>
-                    </form>
-
-                    <div class="mt-5 pt-4 border-top border-white border-opacity-5 d-flex flex-column gap-3">
-                        <a href="/recovery" class="text-decoration-none text-on-surface-variant small hover-white transition-all">Esqueceu sua senha?</a>
-                        <p class="text-muted extra-small m-0">Acesso centralizado para sistemas internos e administrativos.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -89,32 +59,19 @@
         box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
     }
 
-    /* Floating Labels Precision */
-    .form-floating > .form-control {
+    .ms-login-surface .form-control {
         background: rgba(14, 14, 19, 0.5);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 16px;
         color: white;
-        padding-top: 1.625rem;
-        padding-bottom: 0.625rem;
+        padding: 0.95rem 1rem;
         transition: all 0.3s ease;
     }
 
-    .form-floating > .form-control:focus {
+    .ms-login-surface .form-control:focus {
         background: rgba(14, 14, 19, 0.8);
         border-color: var(--ms-primary);
         box-shadow: 0 0 0 4px rgba(173, 198, 255, 0.1);
-    }
-
-    .form-floating > label {
-        padding-left: 1rem;
-        color: var(--ms-on-surface-variant) !important;
-    }
-
-    .form-floating > .form-control:focus ~ label,
-    .form-floating > .form-control:not(:placeholder-shown) ~ label {
-        transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
-        opacity: 0.8;
     }
 
     .extra-small {
@@ -130,38 +87,11 @@
         transition: all 0.3s ease;
     }
 
-    .login-split-row {
-        --bs-gutter-x: 4rem;
-    }
-
     .login-panel {
         position: relative;
     }
 
-    @media (min-width: 992px) {
-        .login-panel + .login-panel::before {
-            content: '';
-            position: absolute;
-            left: -2rem;
-            top: 12%;
-            width: 1px;
-            height: 76%;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(255, 255, 255, 0.18) 20%,
-                rgba(255, 255, 255, 0.18) 80%,
-                transparent 100%
-            );
-        }
-    }
-
     @media (max-width: 991.98px) {
-        .login-split-row {
-            --bs-gutter-x: 1.5rem;
-            --bs-gutter-y: 2rem;
-        }
-
         .ms-login-surface {
             border-radius: 24px;
         }
@@ -194,8 +124,7 @@
 
 <script>
     (function () {
-        const clientForm = document.getElementById('login-form-client');
-        const corporateForm = document.getElementById('login-form-corporate');
+        const form = document.getElementById('login-form');
 
         // Modal for Role Selection
         const modalId = 'roleSelectorModal';
@@ -233,97 +162,82 @@
             return;
         }
 
-        function bindLoginForm(form, config) {
-            if (!form) return;
+        function bindLoginForm(targetForm) {
+            if (!targetForm) return;
 
-            const btnText = form.querySelector('.login-btn-text');
-            const spinner = form.querySelector('.login-spinner');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const emailInput = form.querySelector(config.emailSelector);
-            const passwordInput = form.querySelector(config.passwordSelector);
+            const btnText = targetForm.querySelector('.login-btn-text');
+            const spinner = targetForm.querySelector('.login-spinner');
+            const submitBtn = targetForm.querySelector('button[type="submit"]');
+            const emailInput = targetForm.querySelector('#email');
+            const passwordInput = targetForm.querySelector('#password');
 
-            form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = emailInput.value;
-            const password = passwordInput.value;
+            if (!targetForm) return;
+            targetForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = emailInput.value;
+                const password = passwordInput.value;
 
-            // UI Loading State
-            btnText.textContent = 'Autenticando...';
-            spinner.style.display = 'inline-block';
-            submitBtn.disabled = true;
+                btnText.textContent = 'Autenticando...';
+                spinner.style.display = 'inline-block';
+                submitBtn.disabled = true;
 
-            try {
-                const loginResponse = await window.authService.login(email, password);
-                
-                const user = loginResponse.user || window.authService.getUser();
-                if (!user) throw new Error('Falha ao recuperar dados do usuário.');
+                try {
+                    const loginResponse = await window.authService.login(email, password);
+                    const user = loginResponse.user || window.authService.getUser();
+                    if (!user) throw new Error('Falha ao recuperar dados do usuário.');
 
-                // Robust Role Parsing
-                let rolesList = [];
-                if (Array.isArray(user.roles)) rolesList = [...user.roles];
-                if (user.role && typeof user.role === 'string') {
-                    if (user.role.includes(',')) {
-                        rolesList = [...rolesList, ...user.role.split(',').map(r => r.trim())];
-                    } else {
-                        rolesList.push(user.role);
+                    let rolesList = [];
+                    if (Array.isArray(user.roles)) rolesList = [...user.roles];
+                    if (user.role && typeof user.role === 'string') {
+                        if (user.role.includes(',')) {
+                            rolesList = [...rolesList, ...user.role.split(',').map(r => r.trim())];
+                        } else {
+                            rolesList.push(user.role);
+                        }
                     }
+                    const roles = [...new Set(rolesList)];
+                    if (roles.length === 0) roles.push('user');
+
+                    const hasAdmin = roles.includes('admin');
+                    const hasPremium = roles.includes('premium');
+
+                    if (hasAdmin && hasPremium) {
+                        const container = document.getElementById('role-options');
+                        container.innerHTML = `
+                            <button class="role-btn d-flex align-items-center justify-content-between" onclick="navigateToRole('/cms')">
+                                <span><i class="bi bi-shield-lock-fill text-primary me-3"></i> Painel Administrativo</span>
+                                <i class="bi bi-chevron-right small opacity-50"></i>
+                            </button>
+                            <button class="role-btn d-flex align-items-center justify-content-between" onclick="navigateToRole('/premium')">
+                                <span><i class="bi bi-star-fill text-warning me-3"></i> Dashboard Premium</span>
+                                <i class="bi bi-chevron-right small opacity-50"></i>
+                            </button>
+                        `;
+
+                        window.navigateToRole = (path) => {
+                            roleModal.hide();
+                            window.core.navigate(path);
+                        };
+
+                        roleModal.show();
+                        return;
+                    }
+
+                    if (hasAdmin) {
+                        window.core.navigate('/cms');
+                    } else {
+                        window.core.navigate('/premium');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    window.core.toast(error.message || 'Credenciais inválidas', 'error');
+                    btnText.textContent = submitBtn.getAttribute('data-btn-text-default') || 'Entrar';
+                    spinner.style.display = 'none';
+                    submitBtn.disabled = false;
                 }
-                const roles = [...new Set(rolesList)];
-                if (roles.length === 0) roles.push('user');
-
-                const hasAdmin = roles.includes('admin');
-                const hasPremium = roles.includes('premium');
-
-                if (config.mode === 'client') {
-                    window.core.navigate('/premium');
-                    return;
-                }
-
-                if (hasAdmin && hasPremium) {
-                    const container = document.getElementById('role-options');
-                    container.innerHTML = `
-                        <button class="role-btn d-flex align-items-center justify-content-between" onclick="navigateToRole('/cms')">
-                            <span><i class="bi bi-shield-lock-fill text-primary me-3"></i> Painel Administrativo</span>
-                            <i class="bi bi-chevron-right small opacity-50"></i>
-                        </button>
-                        <button class="role-btn d-flex align-items-center justify-content-between" onclick="navigateToRole('/premium')">
-                            <span><i class="bi bi-star-fill text-warning me-3"></i> Dashboard Premium</span>
-                            <i class="bi bi-chevron-right small opacity-50"></i>
-                        </button>
-                    `;
-                    
-                    window.navigateToRole = (path) => {
-                        roleModal.hide();
-                        window.core.navigate(path);
-                    };
-
-                    roleModal.show();
-                } else if (hasAdmin) {
-                    window.core.navigate('/cms');
-                } else {
-                    window.core.navigate('/premium');
-                }
-
-            } catch (error) {
-                console.error(error);
-                window.core.toast(error.message || 'Credenciais inválidas', 'error');
-                btnText.textContent = submitBtn.getAttribute('data-btn-text-default') || 'Entrar';
-                spinner.style.display = 'none';
-                submitBtn.disabled = false;
-            }
-        });
+            });
         }
 
-        bindLoginForm(clientForm, {
-            mode: 'client',
-            emailSelector: '#email-client',
-            passwordSelector: '#password-client'
-        });
-
-        bindLoginForm(corporateForm, {
-            mode: 'corporate',
-            emailSelector: '#email-corporate',
-            passwordSelector: '#password-corporate'
-        });
+        bindLoginForm(form);
     })();
 </script>

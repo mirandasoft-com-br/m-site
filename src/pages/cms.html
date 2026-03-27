@@ -1,6 +1,5 @@
 <!-- Version: V0.11.10 -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/94yk4tf31jf7bnjst4s8zrmhmf4xsdg4dih9gfwljwbe4m73/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <style>
     .cms-container {
@@ -97,22 +96,16 @@
         font-weight: 600;
         letter-spacing: -0.02em;
     }
-    .ql-toolbar {
-        background: #18181b;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-        border-color: #3f3f46 !important;
+    .tox.tox-tinymce {
+        border-radius: 10px !important;
+        border: 1px solid #3f3f46 !important;
+        overflow: hidden;
     }
-    .ql-toolbar button { color: #fafafa !important; }
-    .ql-toolbar .ql-stroke { stroke: #fafafa !important; }
-    .ql-toolbar .ql-fill { fill: #fafafa !important; }
-    .ql-container {
-        background: #18181b;
-        color: #fafafa;
-        border-bottom-left-radius: 6px;
-        border-bottom-right-radius: 6px;
-        border-color: #3f3f46 !important;
-        font-size: 16px;
+    .tox .tox-toolbar,
+    .tox .tox-toolbar__primary,
+    .tox .tox-toolbar-overlord,
+    .tox .tox-edit-area__iframe {
+        background: #18181b !important;
     }
 </style>
 
@@ -371,7 +364,7 @@
                                 <p class="text-secondary small mb-2 d-none" id="blog-html-mode-hint">Use este modo para colar blocos Google AdSense no meio do texto. Os scripts são executados na página pública do blog.</p>
                                 <div id="blog-editor-visual-wrap">
                                     <div style="box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 10px;">
-                                        <div id="quill-editor-container" style="min-height: 350px;"></div>
+                                        <textarea id="blog-editor-container"></textarea>
                                     </div>
                                 </div>
                                 <div id="blog-editor-html-wrap" class="d-none">
@@ -617,7 +610,7 @@
                     }
                 };
 
-                window.showBlogForm = function() {
+                window.showBlogForm = async function() {
                     const formStr = document.getElementById('new-blog-form');
                     if (formStr) formStr.reset();
                     clearEphemeralAuthorOptions();
@@ -631,28 +624,43 @@
                     setBlogSlugMode(true);
                     window.generateSlug(document.getElementById('blog-title').value);
 
-                    // Inicializando o QuillJS
-                    if (!window.quillEditorInstance) {
+                    // Inicializando o TinyMCE
+                    if (!window.quillEditorInstance || !window.tinymce || !window.tinymce.get('blog-editor-container')) {
                         try {
-                            window.quillEditorInstance = new Quill('#quill-editor-container', {
-                                theme: 'snow',
+                            const editors = await tinymce.init({
+                                selector: '#blog-editor-container',
+                                height: 360,
+                                menubar: true,
+                                branding: false,
+                                promotion: false,
+                                skin: 'oxide-dark',
+                                content_css: 'dark',
+                                convert_urls: false,
                                 placeholder: 'A mágica começa agora. Escreva seu artigo...',
-                                modules: {
-                                    toolbar: [
-                                        [{ 'header': [1, 2, 3, 4, false] }],
-                                        ['bold', 'italic', 'underline', 'strike'],
-                                        ['blockquote', 'code-block'],
-                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                        [{ 'align': [] }],
-                                        ['link', 'image', 'video'],
-                                        ['clean']
-                                    ]
-                                }
+                                plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount',
+                                toolbar: 'undo redo | blocks | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | removeformat code fullscreen preview'
                             });
+                            const editor = Array.isArray(editors) ? editors[0] : editors;
+                            window.quillEditorInstance = {
+                                _editor: editor,
+                                root: {
+                                    get innerHTML() {
+                                        return editor.getContent() || '<p><br></p>';
+                                    },
+                                    set innerHTML(value) {
+                                        editor.setContent(value || '<p><br></p>');
+                                    }
+                                },
+                                on(eventName, callback) {
+                                    if (eventName === 'text-change') {
+                                        editor.on('input change keyup undo redo SetContent', callback);
+                                    }
+                                }
+                            };
                             window.quillEditorInstance.on('text-change', function() {
                                 document.getElementById('blog-content').value = window.quillEditorInstance.root.innerHTML;
                             });
-                        } catch(e) { console.error('Quill Engine não iniciou: ', e); }
+                        } catch(e) { console.error('TinyMCE não iniciou: ', e); }
                     } else {
                         window.quillEditorInstance.root.innerHTML = '';
                     }
@@ -665,10 +673,10 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
 
-                window.editBlog = function(id) {
+                window.editBlog = async function(id) {
                     const blog = window.blogCache[id];
                     if(!blog) return;
-                    showBlogForm();
+                    await showBlogForm();
                     document.getElementById('blog-id').value = blog._id;
                     document.getElementById('blog-title').value = blog.title || '';
                     document.getElementById('blog-slug').value = blog.slug || '';

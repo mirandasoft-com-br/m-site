@@ -26,7 +26,7 @@
       {
         title: "Fábrica de Software",
         description: "Desenvolvimento de software sob medida para atender as necessidades específicas do seu negócio.",
-        href: "/#solucoes",
+        href: "/expertise#desenvolvimento-web",
         icon: "bi-code-square",
         theme: "primary",
         ctaLabel: "Saber mais",
@@ -35,7 +35,7 @@
       {
         title: "Aplicativos Mobile",
         description: "Apps nativos e híbridos com a melhor experiência de usuário para iOS e Android.",
-        href: "/#solucoes",
+        href: "/expertise#apps-mobile",
         icon: "bi-phone",
         theme: "secondary",
         ctaLabel: "Ver detalhes",
@@ -44,7 +44,7 @@
       {
         title: "Consultoria Tech",
         description: "Assessoria especializada para modernização tecnológica e transformação digital.",
-        href: "/#solucoes",
+        href: "/expertise#consultoria-ti",
         icon: "bi-diagram-3",
         theme: "info",
         ctaLabel: "Consultar",

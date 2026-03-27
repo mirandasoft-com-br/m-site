@@ -41,11 +41,13 @@
         <!-- Filter/Search (Optional visual only for now) -->
         <div class="row mb-5">
             <div class="col-12">
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <button class="btn btn-outline-light rounded-pill px-4 active">Todos</button>
-                    <button class="btn btn-outline-light rounded-pill px-4">White Label</button>
-                    <button class="btn btn-outline-light rounded-pill px-4">Tecnologia</button>
-                    <button class="btn btn-outline-light rounded-pill px-4">Produtividade</button>
+                <div class="d-flex justify-content-center gap-3 flex-wrap" id="blog-filters">
+                    <button class="btn btn-outline-light rounded-pill px-4 active" data-filter="todos">Todos</button>
+                    <button class="btn btn-outline-light rounded-pill px-4" data-filter="white label">White Label</button>
+                    <button class="btn btn-outline-light rounded-pill px-4" data-filter="tecnologia">Tecnologia</button>
+                    <button class="btn btn-outline-light rounded-pill px-4" data-filter="produtividade">Produtividade</button>
+                    <button class="btn btn-outline-light rounded-pill px-4" data-filter="design">Design</button>
+                    <button class="btn btn-outline-light rounded-pill px-4" data-filter="negócios">Negócios</button>
                 </div>
             </div>
         </div>
@@ -69,6 +71,7 @@
 <script>
     (function () {
         const grid = document.getElementById('blog-grid');
+        const filterContainer = document.getElementById('blog-filters');
         const heroTitle = document.querySelector('.dev-hero-title');
         const heroSubtitle = document.querySelector('.dev-hero-subtitle');
         const api = window.config?.api?.baseUrl || 'http://localhost:3000';
@@ -258,73 +261,138 @@
             resetBlogMeta();
             grid.innerHTML = '<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div></div>';
 
-            let posts = [];
+            const normalizeCategory = (value) => (value || 'geral').toString().trim().toLowerCase();
+            const defaultFilterLabels = ['Todos', 'White Label', 'Tecnologia', 'Produtividade', 'Design', 'Negócios'];
+            let selectedFilter = 'todos';
+            let allPosts = [];
+
             try {
                 if (window.core && window.core.fetchAPI) {
                     const res = await window.core.fetchAPI('/blogs');
-                    if (res && res.success) posts = res.data;
+                    if (res && res.success) allPosts = res.data;
                 } else {
                     const res = await fetch(`${api}/blogs`);
                     const json = await res.json();
-                    if (json.success) posts = json.data;
+                    if (json.success) allPosts = json.data;
                 }
             } catch (e) {
                 console.warn('Failed to load blogs from API', e);
             }
 
-            if (posts.length === 0) {
+            if (allPosts.length === 0) {
                 grid.innerHTML = '<div class="col-12 text-center text-muted py-5">Nenhuma postagem encontrada.</div>';
                 return;
             }
 
-            grid.innerHTML = posts.map((post, index) => {
-                const date = new Date(post.createdAt || Date.now()).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
-                const hasImage = !!(post.imageUrl && post.imageUrl.trim());
+            const renderPosts = () => {
+                const posts = selectedFilter === 'todos'
+                    ? allPosts
+                    : allPosts.filter((post) => normalizeCategory(post.category) === selectedFilter);
 
-                return `
-                <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: ${index * 0.1}s">
-                <article class="card h-100 border-0 bg-transparent text-white" style="transition: transform 0.3s ease;">
-                    ${hasImage ? `
-                    <div class="position-relative overflow-hidden rounded-4 mb-3" style="aspect-ratio: 16/10;">
-                        <img src="${post.imageUrl}" class="w-100 h-100 object-fit-cover" alt="${(post.title || '').replace(/"/g, '&quot;')}" style="transition: transform 0.5s ease;">
-                        <div class="position-absolute top-0 start-0 p-3">
-                            <span class="badge bg-primary bg-opacity-75 backdrop-blur shadow-sm">${post.category || 'Geral'}</span>
+                if (posts.length === 0) {
+                    grid.innerHTML = '<div class="col-12 text-center text-muted py-5">Nenhuma postagem nessa categoria.</div>';
+                    return;
+                }
+
+                grid.innerHTML = posts.map((post, index) => {
+                    const date = new Date(post.createdAt || Date.now()).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
+                    const hasImage = !!(post.imageUrl && post.imageUrl.trim());
+
+                    return `
+                    <div class="col-md-6 col-lg-4 animate-on-scroll" style="animation-delay: ${index * 0.1}s">
+                    <article class="card h-100 border-0 bg-transparent text-white" style="transition: transform 0.3s ease;">
+                        ${hasImage ? `
+                        <div class="position-relative overflow-hidden rounded-4 mb-3" style="aspect-ratio: 16/10;">
+                            <img src="${post.imageUrl}" class="w-100 h-100 object-fit-cover" alt="${(post.title || '').replace(/"/g, '&quot;')}" style="transition: transform 0.5s ease;">
+                            <div class="position-absolute top-0 start-0 p-3">
+                                <span class="badge bg-primary bg-opacity-75 backdrop-blur shadow-sm">${post.category || 'Geral'}</span>
+                            </div>
+                        </div>
+                        ` : `
+                        <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-primary">${post.category || 'Geral'}</span>
+                            <span><i class="bi bi-calendar3"></i> ${date}</span>
+                        </div>
+                        `}
+                        <div class="card-body p-0 ${hasImage ? '' : 'pt-2'}">
+                        ${hasImage ? `<div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                            <i class="bi bi-calendar3"></i> ${date}
+                        </div>` : ''}
+                        <h3 class="h5 fw-bold mb-2">
+                            <a href="/blog/${post.slug}" class="text-white text-decoration-none hover-gradient">${post.title}</a>
+                        </h3>
+                        <p class="text-muted small line-clamp-3 mb-3">
+                            ${post.description || (post.content || '').replace(/<[^>]*>/g, '').substring(0, 120).trim() + '...'}
+                        </p>
+                        <a href="/blog/${post.slug}" class="dev-link-arrow text-primary text-decoration-none small fw-semibold">
+                            Ler Artigo <i class="bi bi-arrow-right"></i>
+                        </a>
                         </div>
                     </div>
-                    ` : `
-                    <div class="d-flex align-items-center gap-2 text-muted small mb-2">
-                        <span class="badge bg-primary bg-opacity-25 text-primary">${post.category || 'Geral'}</span>
-                        <span><i class="bi bi-calendar3"></i> ${date}</span>
+                    </article>
                     </div>
-                    `}
-                    <div class="card-body p-0 ${hasImage ? '' : 'pt-2'}">
-                    ${hasImage ? `<div class="d-flex align-items-center gap-2 text-muted small mb-2">
-                        <i class="bi bi-calendar3"></i> ${date}
-                    </div>` : ''}
-                    <h3 class="h5 fw-bold mb-2">
-                        <a href="/blog/${post.slug}" class="text-white text-decoration-none hover-gradient">${post.title}</a>
-                    </h3>
-                    <p class="text-muted small line-clamp-3 mb-3">
-                        ${post.description || (post.content || '').replace(/<[^>]*>/g, '').substring(0, 120).trim() + '...'}
-                    </p>
-                    <a href="/blog/${post.slug}" class="dev-link-arrow text-primary text-decoration-none small fw-semibold">
-                        Ler Artigo <i class="bi bi-arrow-right"></i>
-                    </a>
-                    </div>
-                </article>
-                </div>
-            `}).join('');
+                `}).join('');
 
-            // Animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
-                        observer.unobserve(entry.target);
-                    }
+                // Animations
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                            observer.unobserve(entry.target);
+                        }
+                    });
                 });
-            });
-            grid.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+                grid.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            };
+
+            const setupFilters = () => {
+                if (!filterContainer) return;
+
+                const existing = new Set(
+                    Array.from(filterContainer.querySelectorAll('[data-filter]')).map((btn) => btn.getAttribute('data-filter'))
+                );
+                const postCategories = Array.from(
+                    new Set(
+                        allPosts
+                            .map((post) => normalizeCategory(post.category))
+                            .filter((cat) => cat && cat !== 'todos')
+                    )
+                );
+
+                postCategories.forEach((cat) => {
+                    if (existing.has(cat)) return;
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'btn btn-outline-light rounded-pill px-4';
+                    button.setAttribute('data-filter', cat);
+                    button.textContent = cat
+                        .split(' ')
+                        .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+                        .join(' ');
+                    filterContainer.appendChild(button);
+                });
+
+                const buttons = filterContainer.querySelectorAll('[data-filter]');
+                buttons.forEach((button) => {
+                    button.addEventListener('click', () => {
+                        selectedFilter = button.getAttribute('data-filter') || 'todos';
+                        buttons.forEach((btn) => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        renderPosts();
+                    });
+                });
+            };
+
+            if (filterContainer) {
+                filterContainer.querySelectorAll('[data-filter]').forEach((btn) => {
+                    const filterValue = (btn.getAttribute('data-filter') || '').trim().toLowerCase();
+                    if (!filterValue) return;
+                    btn.textContent = defaultFilterLabels.find((label) => label.toLowerCase() === filterValue) || btn.textContent;
+                });
+            }
+
+            setupFilters();
+            renderPosts();
         }
 
         // Router
