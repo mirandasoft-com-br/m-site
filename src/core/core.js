@@ -5,6 +5,8 @@ class Core {
     this.components = new Map();
     // Componentes HTML já carregados via fetch
     this.loadedHtmlComponents = new Set();
+    // Registro de carregamentos ativos para evitar concorrência (Race Conditions)
+    this._activeLoads = new Set();
     // Estado global
     this.state = {};
     // Parâmetros da URL
@@ -44,11 +46,12 @@ class Core {
     elements.forEach(async el => {
       const name = el.getAttribute('data-component');
 
-      // Skip skeleton components, already loaded components, or components currently loading
-      if (name === 'skeleton' || el.hasAttribute('data-loaded') || el.hasAttribute('data-loading')) return;
-
-      // Mark as loading to prevent duplicate triggers
-      el.setAttribute('data-loading', 'true');
+      // 1. Verificações de segurança síncronas e imediatas
+      if (name === 'skeleton' || el.hasAttribute('data-loaded')) return;
+      
+      // Bloqueio atômico em memória (Set é síncrono, data-attribute é lento)
+      if (this._activeLoads.has(el)) return;
+      this._activeLoads.add(el);
 
       // Determine skeleton type based on component name
       const skeletonTypeMap = {
@@ -76,7 +79,7 @@ class Core {
           // Use smooth transition if Skeleton is available
           if (typeof Skeleton !== 'undefined' && Skeleton.hide) {
             Skeleton.hide(el, content, () => {
-              el.removeAttribute('data-loading');
+              this._activeLoads.delete(el);
               el.setAttribute('data-loaded', 'true');
               this.loadedHtmlComponents.add(name);
               // Execute any inline scripts
@@ -84,7 +87,7 @@ class Core {
             });
           } else {
             el.innerHTML = content;
-            el.removeAttribute('data-loading');
+            this._activeLoads.delete(el);
             el.setAttribute('data-loaded', 'true');
             this.loadedHtmlComponents.add(name);
             this.executeScripts(el);
@@ -92,7 +95,7 @@ class Core {
           return;
         }
       } catch (error) {
-        el.removeAttribute('data-loading');
+        this._activeLoads.delete(el);
         if (config?.app?.debug) console.warn(`Failed to load component: ${name}`, error);
       }
 
@@ -105,17 +108,17 @@ class Core {
             const tempDiv = document.createElement('div');
             instance.render(tempDiv);
             Skeleton.hide(el, tempDiv.innerHTML, () => {
-              el.removeAttribute('data-loading');
+              this._activeLoads.delete(el);
               el.setAttribute('data-loaded', 'true');
             });
           } else {
             instance.render(el);
-            el.removeAttribute('data-loading');
+            this._activeLoads.delete(el);
             el.setAttribute('data-loaded', 'true');
           }
         }
       } else {
-        el.removeAttribute('data-loading');
+        this._activeLoads.delete(el);
       }
     });
   }
