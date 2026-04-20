@@ -34,36 +34,26 @@ class Skeleton extends Component {
       }
 
       .skeleton-item {
-        background: linear-gradient(
-          90deg,
-          rgba(99, 102, 241, 0.05) 0%,
-          rgba(99, 102, 241, 0.1) 50%,
-          rgba(99, 102, 241, 0.05) 100%
-        );
-        background-size: 200% 100%;
+        background: rgba(99, 102, 241, 0.08);
         border-radius: 8px;
         position: relative;
         overflow: hidden;
       }
 
-      .skeleton-item.animated {
-        animation: skeletonShimmer 1.5s infinite linear;
-      }
-
-      .skeleton-item::after {
+      /* Transform-only shimmer (compositor-friendly; avoids background-position animation) */
+      .skeleton-item.animated::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
+        border-radius: inherit;
         background: linear-gradient(
           90deg,
           transparent 0%,
-          rgba(255, 255, 255, 0.05) 50%,
+          rgba(255, 255, 255, 0.14) 50%,
           transparent 100%
         );
-        animation: skeletonWave 1.5s infinite;
+        transform: translateX(-100%);
+        animation: skeletonShimmerSlide 1.5s infinite linear;
       }
 
       /* ============================================
@@ -483,16 +473,7 @@ class Skeleton extends Component {
       /* ============================================
          ANIMATIONS
          ============================================ */
-      @keyframes skeletonShimmer {
-        0% {
-          background-position: -200% 0;
-        }
-        100% {
-          background-position: 200% 0;
-        }
-      }
-
-      @keyframes skeletonWave {
+      @keyframes skeletonShimmerSlide {
         0% {
           transform: translateX(-100%);
         }

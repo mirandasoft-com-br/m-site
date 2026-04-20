@@ -87,9 +87,17 @@
       <div class="col-lg-6">
         <div class="position-relative">
           <div style="border-radius: 48px; min-height: 500px; background-color: var(--ms-surface-container-low); overflow: hidden; position: relative;">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
-                 alt="Miranda Soft Team" 
-                 class="w-100 h-100 object-fit-cover opacity-50" 
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop"
+                 srcset="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=480&q=80&auto=format&fit=crop 480w,
+                         https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80&auto=format&fit=crop 800w,
+                         https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=80&auto=format&fit=crop 1200w"
+                 sizes="(max-width: 991px) 100vw, 50vw"
+                 width="800"
+                 height="533"
+                 alt="Miranda Soft Team"
+                 loading="lazy"
+                 decoding="async"
+                 class="w-100 h-100 object-fit-cover opacity-50"
                  style="mix-blend-mode: luminosity; position: absolute; inset: 0;">
             <div class="position-absolute bottom-0 start-0 w-100 p-5" style="background: linear-gradient(transparent, rgba(19,19,24,0.9));">
             </div>
@@ -183,7 +191,7 @@
           <div class="mx-auto bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
             <i class="bi bi-chat-dots fs-1 text-primary"></i>
           </div>
-          <h5 class="text-white fw-bold mb-3">Chat em Tempo Real</h5>
+          <h3 class="h5 text-white fw-bold mb-3">Chat em Tempo Real</h3>
           <p class="text-on-surface-variant small mb-0">Tire suas dúvidas instantaneamente com nossa equipe de suporte via chat.</p>
         </div>
       </div>
@@ -192,7 +200,7 @@
           <div class="mx-auto bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
             <i class="bi bi-book fs-1 text-success"></i>
           </div>
-          <h5 class="text-white fw-bold mb-3">Base de Conhecimento</h5>
+          <h3 class="h5 text-white fw-bold mb-3">Base de Conhecimento</h3>
           <p class="text-on-surface-variant small mb-0">Acesse nossa documentação completa, tutoriais e guias de uso.</p>
         </div>
       </div>
@@ -373,7 +381,7 @@
                         <span class="mx-2 opacity-25">|</span>
                         <span class="text-secondary">${post.category || 'Tecnologia'}</span>
                       </div>` : ''}
-                      <h4 class="h5 fw-bold text-white mb-3 line-clamp-2">${post.title}</h4>
+                      <h3 class="h5 fw-bold text-white mb-3 line-clamp-2">${post.title}</h3>
                       <div class="d-flex align-items-center text-primary small fw-bold gap-2">
                         Ler Artigo <i class="bi bi-chevron-right"></i>
                       </div>

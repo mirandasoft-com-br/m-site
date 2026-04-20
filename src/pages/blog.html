@@ -103,6 +103,28 @@
     body.blog-post-detail-open {
         overflow-x: clip;
     }
+
+    /* Lighthouse: contrast on filter chips (outline-light on dark was too low) */
+    #blog-filters .btn.btn-outline-light {
+        border-color: rgba(255, 255, 255, 0.72);
+        color: rgba(255, 255, 255, 0.96);
+    }
+    #blog-filters .btn.btn-outline-light:hover,
+    #blog-filters .btn.btn-outline-light:focus-visible {
+        border-color: #fff;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    #blog-filters .btn.btn-outline-light.active {
+        background: rgba(99, 102, 241, 0.45);
+        border-color: rgba(199, 210, 254, 0.95);
+        color: #fff;
+    }
+
+    .blog-category-badge {
+        background-color: rgba(13, 110, 253, 0.92) !important;
+        color: #fff !important;
+    }
 </style>
 <!-- Blog Hero Section -->
 <section class="dev-hero" style="padding: 120px 0 80px;">
@@ -363,7 +385,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
-                                            <h6 class="text-white mb-3 fw-bold">Compartilhe este artigo na sua rede:</h6>
+                                            <p class="text-white mb-3 fw-bold">Compartilhe este artigo na sua rede:</p>
                                             <div class="d-flex gap-3 flex-wrap">
                                                 <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-twitter-x"></i></a>
                                                 <a href="https://www.linkedin.com/shareArticle?mini=true&title=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;"><i class="bi bi-linkedin"></i></a>
@@ -515,7 +537,7 @@
                         <div class="position-relative overflow-hidden rounded-4 mb-3" style="aspect-ratio: 16/10;">
                             <img src="${post.imageUrl}" class="w-100 h-100 object-fit-cover" alt="${(post.title || '').replace(/"/g, '&quot;')}" style="transition: transform 0.5s ease;">
                             <div class="position-absolute top-0 start-0 p-3">
-                                <span class="badge bg-primary bg-opacity-75 backdrop-blur shadow-sm">${post.category || 'Geral'}</span>
+                                <span class="badge blog-category-badge backdrop-blur shadow-sm">${post.category || 'Geral'}</span>
                             </div>
                         </div>
                         ` : `

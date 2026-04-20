@@ -1,5 +1,4 @@
-<!-- Version: V0.11.37 -->
-<!-- Version: V0.11.51 -->
+<!-- Version: V0.11.55 -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -20,7 +19,7 @@
   <meta property="og:title" content="MSoft | Transformação Digital e Inovação">
   <meta property="og:description"
     content="Desenvolvimento de software e soluções tecnológicas inovadoras focadas em resultados reais.">
-...
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://mirandasoft.com.br/">
@@ -36,85 +35,67 @@
   <link rel="manifest" href="/src/assets/favicon/site.webmanifest">
   <meta name="theme-color" content="#0a0a0f">
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet"
-    media="print"
-    onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-
   <!-- Styles -->
   <link href="/src/assets/css/design-system.css" rel="stylesheet">
   <link href="/src/assets/css/style.css" rel="stylesheet">
   <link href="/src/assets/css/developer.css" rel="stylesheet">
 
-  <!-- Bootstrap, Swiper, Bootstrap Icons -->
+  <!-- Core Vendor CSS -->
   <link href="/src/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/src/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="/src/assets/vendor/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/src/assets/vendor/animate/animate.min.css" rel="stylesheet">
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7844284078845131"
-    crossorigin="anonymous"></script>
+  
+  <!-- Non-Critical Vendor CSS -->
+  <link href="/src/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="/src/assets/vendor/animate/animate.min.css" rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 
 <body data-bs-theme="dark" class="d-flex flex-column min-vh-100">
-  <div class="tech-grid-overlay"></div>
   <a href="#root" class="visually-hidden-focusable skip-link">Pular para o conteúdo</a>
+  
   <!-- Layout Wrapper Global -->
   <div class="container-lg d-flex flex-column flex-grow-1 p-0" style="max-width: 1140px;">
-    <!-- Toast -->
     <div id="toast"></div>
 
-    <!-- Header -->
-    <div id="head" data-component="header"></div>
+    <!-- Header - Min-height to prevent CLS -->
+    <div id="head" data-component="header" style="min-height: 80px;"></div>
 
     <!-- Main Content -->
-    <main id="root" role="main">
+    <main id="root" role="main" style="min-height: 60vh;">
       <div data-component="skeleton"></div>
     </main>
 
     <!-- Modal -->
     <div id="modal" data-component="modal"></div>
 
-    <!-- Footer -->
-    <div id="footer" data-component="footer" class="mt-auto"></div>
+    <!-- Footer - Min-height to prevent CLS -->
+    <div id="footer" data-component="footer" class="mt-auto" style="min-height: 300px;"></div>
+  </div>
 
-  </div> <!-- Fechamento Layout Wrapper -->
-
-  <!-- jQuery -->
-  <script src="/src/assets/vendor/jquery/jquery-3.7.1.min.js"></script>
-
-  <!-- Bootstrap -->
-  <script src="/src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Swiper -->
-  <script src="/src/assets/vendor/swiper/swiper-bundle.min.js"></script>
-
-  <!-- PapaParse -->
-  <script src="/src/assets/vendor/papaparse/papaparse.min.js"></script>
-
-  <!-- Marked -->
-  <script src="/src/assets/vendor/marked/marked.min.js"></script>
-
-  <!-- Config -->
+  <!-- Critical Orchestration Scripts -->
   <script src="/src/config/config.js"></script>
-
-  <!-- Data/CMS layer -->
-  <script src="/src/data/cms-content.js"></script>
-  <script src="/src/services/content-service.js"></script>
-  <script src="/src/services/auth-service.js"></script>
-  <script src="/src/services/audit-service.js"></script>
-  <script src="/src/services/healthtech-service.js"></script>
-
-  <!-- Scripts -->
-  <script src="/src/core/component.js"></script>
-  <script src="/src/core/helpers.js"></script>
-  <script src="/src/core/skeleton.js"></script>
   <script src="/src/core/core.js"></script>
+
+  <!-- Vendor Scripts (Deferred) -->
+  <script src="/src/assets/vendor/jquery/jquery-3.7.1.min.js" defer></script>
+  <script src="/src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+  <script src="/src/assets/vendor/swiper/swiper-bundle.min.js" defer></script>
+  <script src="/src/assets/vendor/papaparse/papaparse.min.js" defer></script>
+  <script src="/src/assets/vendor/marked/marked.min.js" defer></script>
+
+  <!-- Application Services (Deferred) -->
+  <script src="/src/data/cms-content.js" defer></script>
+  <script src="/src/services/content-service.js" defer></script>
+  <script src="/src/services/auth-service.js" defer></script>
+  <script src="/src/services/audit-service.js" defer></script>
+  <script src="/src/services/healthtech-service.js" defer></script>
+
+  <!-- Component System (Deferred) -->
+  <script src="/src/core/component.js" defer></script>
+  <script src="/src/core/helpers.js" defer></script>
+  <script src="/src/core/skeleton.js" defer></script>
+
+  <!-- AdSense (Async, Non-blocking) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7844284078845131" crossorigin="anonymous"></script>
 </body>
 
 </html>
